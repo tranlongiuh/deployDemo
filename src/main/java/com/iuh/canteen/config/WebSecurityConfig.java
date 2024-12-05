@@ -86,7 +86,7 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("https://deploy-demo-web.vercel.app"));
+        configuration.setAllowedOrigins(Collections.singletonList("https://manage-canteen-iuh-web-longs-projects-96cfa0f6.vercel.app/"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
