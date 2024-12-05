@@ -74,4 +74,19 @@ public class AdminController {
         return ResponseEntity.badRequest()
                              .build();
     }
+    
+    @PutMapping("/resetPassword/{id}")
+    ResponseEntity<?> resetPassword(@PathVariable("id") Long id) {
+
+        try {
+            if (adminService.resetPassword(id)) {
+                return ResponseEntity.ok()
+                                     .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest()
+                             .build();
+    }
 }

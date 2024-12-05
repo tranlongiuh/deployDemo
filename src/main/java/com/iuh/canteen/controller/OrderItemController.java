@@ -107,7 +107,7 @@ public class OrderItemController {
         try {
             String jwt = jwtUtil.getJwtFromRequest(request);
             String username = jwtUtil.extractUsername(jwt);
-            orderItemService.updateOrderItemStatus(id, username, "PAID");
+            orderItemService.updateOrderItemStatus(id, username, "CANCELLED");
             return ResponseEntity.ok("Order has been cancelled");
         } catch (Exception e) {
             e.printStackTrace();
