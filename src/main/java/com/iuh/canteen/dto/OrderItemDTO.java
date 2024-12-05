@@ -33,4 +33,6 @@ public class OrderItemDTO {
     private BigDecimal price; // Giá tại thời điểm đặt hàng
 
     private OrderStatus status;
+    
+    private UserDTO userDTO;
 }

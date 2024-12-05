@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 /**
  * DashboardStats Thông tin chung trong Bảng điều khiển
  */
@@ -14,11 +12,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class DashboardStats {
 
-    private BigDecimal totalSales;
+	private String totalSales;
 
-    private BigDecimal totalExpenses;
+	private String totalExpenses;
 
-    private long totalCustomers;
+	private long totalCustomers;
 
-    private long totalOrders;
+	private long totalOrders;
 }
