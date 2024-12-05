@@ -1,16 +1,24 @@
 package com.iuh.canteen.service;
 
-import com.iuh.canteen.dto.OrderItemDTO;
-
+import java.time.LocalDateTime;
 import java.util.List;
+
+import com.iuh.canteen.dto.OrderItemDTO;
+import com.iuh.canteen.entity.OrderItem;
+import com.iuh.canteen.entity.Stall;
 
 public interface OrderItemService {
 
-    List<OrderItemDTO> getOrderItems(String username);
+	List<OrderItemDTO> getOrderItems(String username);
 
-    Boolean updateOrderItemStatus(Long id, String username, String status);
+	Boolean updateOrderItemStatus(Long id, String username, String status);
 
-    List<OrderItemDTO> takingItemInStall(Long idOrder, String username);
+	List<OrderItemDTO> takingItemInStall(Long idOrder, String username);
 
-    boolean giveItem(Long id, String username);
+	boolean giveItem(Long id, String username);
+
+	List<OrderItem> findTodayOrderItemByStall(Stall stall);
+
+	List<OrderItemDTO> findTodayOrderItemByStallAndTime(Stall stall,
+			LocalDateTime startOfDay, LocalDateTime endOfDay);
 }
