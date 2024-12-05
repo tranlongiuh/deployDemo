@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
                 + "Trân trọng,<br>"
                 + "Canteen Industrial University of HCMC.";
         content = content.replace("[[name]]", user.getUsername());
-        String verifyURL = "http://localhost:8080/api/auth/enable?code=" + user.getVerificationCode();
+        String verifyURL = "https://angelic-strength-production.up.railway.app/api/auth/enable?code=" + user.getVerificationCode();
         content = content.replace("[[URL]]", verifyURL);
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
