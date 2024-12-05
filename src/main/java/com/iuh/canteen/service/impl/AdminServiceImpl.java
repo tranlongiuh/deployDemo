@@ -100,4 +100,21 @@ public class AdminServiceImpl implements AdminService {
         }
         return false;
     }
+
+	public boolean resetPassword(Long id) {
+		try {
+            User manager = userService.findById(id);
+            
+            manager.setPassword(new BCryptPasswordEncoder().encode("12345678"));
+           
+            manager = userService.save(manager);
+            
+            if (manager != null) {     
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+	}
 }

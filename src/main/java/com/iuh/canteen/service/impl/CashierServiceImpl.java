@@ -32,6 +32,7 @@ public class CashierServiceImpl implements CashierService {
             result.setId(tempUser.getId());
             result.setEmail(tempUser.getEmail());
             result.setBalance(tempUser.getBalance());
+            result.setPhone(tempUser.getPhone());
             return result;
         }
         return null;

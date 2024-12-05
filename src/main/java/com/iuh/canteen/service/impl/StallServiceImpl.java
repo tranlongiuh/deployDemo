@@ -302,7 +302,7 @@ public class StallServiceImpl implements StallService {
      */
     @Override
     public long countTotalOrders(Long idStall) {
-
+    	
         return orderItemRepository.countDistinctOrdersByStallId(idStall);
     }
 
