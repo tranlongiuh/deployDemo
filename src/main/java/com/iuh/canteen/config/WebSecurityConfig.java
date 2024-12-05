@@ -36,60 +36,49 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/auth/**", "/test/api")
-                                .permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/images/**")
-                                .permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/api/images/**", "/api/foods/**")
-                                .hasRole("MANAGER")
-                                .requestMatchers(HttpMethod.DELETE, "/api/images/**", "/api/foods/**")
-                                .hasRole("MANAGER")
-                                .requestMatchers("/api/cashier/**")
-                                .hasRole("CASHIER")
-                                .requestMatchers("/api/admin/**")
-                                .hasRole("ADMIN")
-                                .anyRequest()
-                                .authenticated()
+                                .requestMatchers("/api/auth/**", "/test/api").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/images/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/api/images/**", "/api/foods/**").hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.DELETE, "/api/images/**", "/api/foods/**").hasRole("MANAGER")
+                                .requestMatchers("/api/cashier/**").hasRole("CASHIER")
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->
-                        exceptionHandling
-                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                        exceptionHandling.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .cors(withDefaults());
+
         http.addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-
-        return web -> web.ignoring()
-                         .requestMatchers("/static/**");
+        return web -> web.ignoring().requestMatchers("/static/**");
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("https://canteen-iuh-manage.vercel.app"));
+        configuration.setAllowedOrigins(Collections.singletonList("https://canteen-iuh-manage.vercel.app")); 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Location"));
         configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
