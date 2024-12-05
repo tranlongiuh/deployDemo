@@ -105,4 +105,39 @@ public class PaymentServiceImpl implements PaymentService {
         });
         return orderItems;
     }
+    @Override
+	public boolean successPayment(Long orderId) {
+		boolean rs = false;
+		try {
+			Orders orders = ordersService.findById(orderId);
+			System.out.println("successPayment findById orderId " + orderId);
+			if (orders != null) {
+
+				Payment payment = orders.getPayment();
+				if (payment.getPaymentMethod().equals(PaymentMethod.MOMO)) {
+
+					// cap nhat trang thai don, cong tien cho manager
+
+					orders.setStatus(OrderStatus.PAID);
+					List<OrderItem> orderItems = getOrderItems(orders);
+					orders.setOrderItems(orderItems);
+
+					ordersService.save(orders);
+					// cap nhat trang thai thanh toan
+					// TODO: ap ma giam gia
+					payment.setAmount(orders.getTotalPrice());
+					payment.setStatus(PaymentStatus.COMPLETED);
+					paymentRepository.save(payment);
+					System.out.println("payment success");
+					return true;
+				}
+
+			} else {
+				System.err.println("orders is null");
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return rs;
+	}
 }
