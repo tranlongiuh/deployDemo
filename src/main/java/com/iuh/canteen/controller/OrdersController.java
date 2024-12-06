@@ -59,8 +59,26 @@ public class OrdersController {
             String jwt = jwtUtil.getJwtFromRequest(request);
             String username = jwtUtil.extractUsername(jwt);
             // kiem tra so du
-            if (userService.checkAmount(username, amount)) {
-                ObjectMapper objectMapper = new ObjectMapper();
+            if (paymentMethod.equals("DEFAULT")) {
+            	if (userService.checkAmount(username, amount)) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    if (dishesListJson == null || dishesListJson.isEmpty()) {
+                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    }
+                    List<DishesDTO> dishesList = objectMapper.readValue(dishesListJson,
+                            new TypeReference<List<DishesDTO>>() {
+
+                            });
+                    result = modelMapper.map(
+                            ordersService.addOrder(username, dishesList, paymentMethod, selectedPromotionId,
+                                    address), OrdersDTO.class);
+                    return ResponseEntity.ok(result);
+                } else {
+                    return ResponseEntity.status(201)
+                                         .body("Số dư không đủ");
+                }
+			} else if(paymentMethod.equals("MOMO")) {
+				ObjectMapper objectMapper = new ObjectMapper();
                 if (dishesListJson == null || dishesListJson.isEmpty()) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
@@ -72,10 +90,8 @@ public class OrdersController {
                         ordersService.addOrder(username, dishesList, paymentMethod, selectedPromotionId,
                                 address), OrdersDTO.class);
                 return ResponseEntity.ok(result);
-            } else {
-                return ResponseEntity.status(201)
-                                     .body("Số dư không đủ");
-            }
+			} 
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
