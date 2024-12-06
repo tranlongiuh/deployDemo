@@ -291,7 +291,7 @@ public class UserServiceImpl implements UserService {
         if (existsByUsername(username)) {
             String token = UUID.randomUUID()
                                .toString();
-            String resetLink = "https://angelic-strength-production.up.railway.app/reset?token=" + token;
+            String resetLink = "https://canteen-iuh-manage.vercel.app/reset?token=" + token;
             // Save token to the database
             saveToken(email, token);
             sendResetPasswordEmail(email, resetLink);
